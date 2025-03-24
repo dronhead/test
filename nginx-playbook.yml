@@ -25,6 +25,6 @@
         image: nginx
         state: started
         ports:
-          - "81:80"
+          - "80:80"
         volumes:
           - "nginx-data:/usr/share/nginx/html:ro"
