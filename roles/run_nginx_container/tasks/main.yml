@@ -1,0 +1,25 @@
+---
+# tasks file for run_nginx_container
+#- name: Start Docker service
+      #service:
+        #name: docker
+        #state: started
+        #enabled: true
+
+- name: Pull nginx Docker image
+  docker_image:
+    name: nginx
+    source: pull
+- name: Create volume
+  docker_volume:
+    name: nginx-data
+    driver: local
+- name: Run nginx Docker container
+  docker_container:
+    name: nginx
+    image: nginx
+    state: started
+    ports:
+      - "80:80"
+    volumes:
+      - "nginx-data:/usr/share/nginx/html:ro"
