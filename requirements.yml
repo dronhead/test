@@ -1,0 +1,4 @@
+---
+#haproxy
+collections:
+  - name: kube_cloud.haproxy
