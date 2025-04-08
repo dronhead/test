@@ -1,0 +1,30 @@
+---
+# - name: "Update apt cache"
+#   apt:
+#     update_cache: true
+
+           
+#- name: "Fix Ubuntu repos and install Nginx"
+  #become: yes
+  #tasks:
+    # - name: "Replace Russian mirror"
+    #   replace:
+    #     path: /etc/apt/sources.list
+    #     regexp: 'ru\.archive\.ubuntu\.com'
+    #     replace: 'archive.ubuntu.com'
+
+    # - name: "Clean apt cache"
+    #   apt:
+    #     update_cache: no
+    #     clean: true
+
+    # - name: "Update apt"
+    #   apt:
+    #     update_cache: true
+
+    - name: "Install Nginx"
+      apt:
+        name: nginx
+        state: present
+        update_cache: true
+      notify: restart nginx   

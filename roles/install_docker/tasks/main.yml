@@ -25,6 +25,7 @@
     name: "{{item}}"
     state: latest
     update_cache: true
+  notify: restart_and_check_docker
   loop:
     - docker-ce
     - docker-ce-cli
@@ -52,3 +53,8 @@
   ansible.builtin.file:
     path: /usr/local/bin/docker-compose
     owner: ubuntu
+- name: ensure_docker_active
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true

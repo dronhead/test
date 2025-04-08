@@ -1,0 +1,14 @@
+---
+- name: "Configure Nginx Debian"
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  notify: reload nginx
+  when: ansible_os_family == 'Debian'
+
+- name: "Configure Nginx RedHat"
+  template:
+    src: index.html.j2
+    dest: /usr/share/nginx/html/index.html
+  notify: reload nginx
+  when: ansible_os_family == 'RedHat'  

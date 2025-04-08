@@ -1,0 +1,41 @@
+<html>
+<body>
+<h1>Информация о хосте {{ ansible_hostname }}</h1>
+
+<h2>Время и дата</h2>
+<p>{{ ansible_date_time.iso8601 }}</p>
+
+<h2>Семейство ОС</h2>
+<pre>
+{% if ansible_os_family == 'Debian' %}
+I'm from Ubuntu family
+Dmitrii is the best teacher!!!
+{% elif ansible_os_family == 'RedHat' %}
+I'm from CentOS family
+Dimas is perfect teacher!
+{% endif %}
+</pre>
+
+<h2>Переменные среды</h2>
+<pre>
+{% for key, value in ansible_env.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+</pre>
+
+<h2>Сетевые интерфейсы</h2>
+{% for interface in ansible_interfaces if interface in ansible_facts %}
+{% set iface = ansible_facts[interface] %}
+<h3>{{ interface }}</h3>
+<ul>
+  <li>IPv4: {{ iface.ipv4.address | default('N/A') }}</li>
+  <li>IPv6: {{ (iface.ipv6[0].address | default('N/A')) if (iface.ipv6 is defined and iface.ipv6) else 'N/A' }}</li>
+  <li>Сеть: {{ iface.ipv4.network | default('N/A') }}</li>
+  <li>Устройство: {{ iface.macaddress | default('N/A') }}</li>
+  <li>Активен: {{ iface.active | default('N/A') }}</li>
+</ul>
+{% else %}
+<p>Нет доступных сетевых интерфейсов</p>
+{% endfor %}
+</body>
+</html>

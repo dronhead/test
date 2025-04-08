@@ -1,0 +1,11 @@
+---
+# - name: "Update cache"
+#   dnf:
+#     update_cache: true
+
+- name: "Install Nginx (CentOS)"
+  yum:
+    name: nginx
+    state: present
+    update_cache: true
+  notify: restart nginx

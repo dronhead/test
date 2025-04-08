@@ -1,0 +1,15 @@
+# templates/network.j2
+{% for interface in ansible_interfaces %}
+{% if interface in ansible_facts %}
+{% set iface = ansible_facts[interface] %}
+{{ interface }}:
+  ipv4: {{ iface.ipv4.address | default('N/A') }}
+  ipv6: {% if iface.ipv6 is defined and iface.ipv6 %}{{ iface.ipv6[0].address | default('N/A') }}{% else %}N/A{% endif %}
+  network: {{ iface.ipv4.network | default('N/A') }}
+  device: {{ iface.macaddress | default('N/A') }}
+  is_active: {{ iface.active | default('N/A') }}
+{% else %}
+{{ interface }}: 
+  error: Interface information not available
+{% endif %}
+{% endfor %}

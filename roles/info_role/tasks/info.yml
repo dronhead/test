@@ -1,0 +1,62 @@
+--- 
+    - name: "Create directory /tmp/info"
+      file:
+        path: "/tmp/info"
+        state: directory
+        mode: "0755"
+
+    - name: "Get current date and time"
+      command: "date"
+      register: current_time  
+
+    - name: "Write time to file"
+      copy:
+        content: "{{ current_time.stdout }}"
+        dest: "/tmp/info/time"
+        mode: "0644"
+
+    - name: "Create family file for Ubuntu"
+      copy:
+        content: | 
+          I'm from Ubuntu family 
+          Dmitrii is the best teacher!!!
+        dest: "/tmp/info/family"
+        mode: "0644"
+      when: ansible_os_family == "Debian"  # Ubuntu относится к семейству Debian
+
+    - name: "Create family file for CentOS"
+      copy:
+        content: |
+          I'm from CentOS family
+          Dimas is perfect teacher!
+        dest: "/tmp/info/family"
+        mode: "0644"
+      when: ansible_os_family == "RedHat"  # CentOS относится к семейству RedHat
+
+    # - name: "Gather environment variables"
+    #   shell: "printenv"
+    #   register: env_vars
+    #   changed_when: false  # Задача всегда будет 'ok', а не 'changed'
+
+    - name: "Gather environment variables"
+      template:
+        src: env.j2
+        dest: /tmp/info/env
+
+    # - name: "Write environment variables to file"
+    #   copy:
+    #     content: |
+    #       # Environment variables
+    #       {{ env_vars.stdout }}
+    #     dest: "/tmp/info/env"
+    #     mode: "0644"
+
+    - name: "Collect network information"
+      template:
+        src: network.j2
+        dest: /tmp/info/network
+
+    - name: "Combine files into a report"
+      assemble:
+        src: /tmp/info/
+        dest: /tmp/info_report  

@@ -1,12 +1,26 @@
 ---
 
-- hosts: localhost
-  remote_user: ubuntu
-  become: true
+- hosts: all
+  become: yes
+  # pre_tasks:
+  #   - name: "Without Sudo for localhost"
+  #     setup:
+  #     when: inventory_hostname == "localhost"
+  #     become: false
+  #become_method: sudo
+  # Для сбора фактов без sudo
+  # pre_tasks:
+  #   - name: Gather facts without sudo
+  #     setup:
+  #     become: false
+  #become: true
 
   roles:
-    - install_docker 
-    - run_nginx_container
+    #- install_docker 
+    #- run_nginx_container
+    #- ansible-haproxy
+    - info_role
+  
 
   # tasks:
   #   - name: install dependencies

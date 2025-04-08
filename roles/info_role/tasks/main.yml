@@ -1,0 +1,5 @@
+---
+# tasks file for info_role
+- include_tasks: info.yml
+- include_tasks: install_nginx.yml
+- include_tasks: configure_nginx.yml

@@ -5,9 +5,5 @@
   ansible.builtin.service:
     name: docker
     state: restarted
-  notify: ensure_docker_active   
-- name: ensure_docker_active
-  ansible.builtin.service:
-    name: docker
-    state: started
     enabled: true
+  notify: ensure_docker_active   
